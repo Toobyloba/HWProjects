@@ -1,0 +1,131 @@
+
+3_RenamingRegisters.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000198  08000000  08000000  00001000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         00000078  08000198  08000198  00001198  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       00000000  08000210  08000218  00001218  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  3 .ARM.extab    00000000  08000210  08000210  00001218  2**0
+                  CONTENTS, READONLY
+  4 .ARM          00000000  08000210  08000210  00001218  2**0
+                  CONTENTS, READONLY
+  5 .preinit_array 00000000  08000210  08000218  00001218  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .init_array   00000004  08000210  08000210  00001210  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  7 .fini_array   00000004  08000214  08000214  00001214  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  8 .data         00000000  20000000  20000000  00001218  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  9 .bss          0000001c  20000000  08000218  00002000  2**2
+                  ALLOC
+ 10 ._user_heap_stack 00000604  2000001c  08000218  0000201c  2**0
+                  ALLOC
+ 11 .ARM.attributes 00000030  00000000  00000000  00001218  2**0
+                  CONTENTS, READONLY
+ 12 .debug_line   000000cb  00000000  00000000  00001248  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 13 .debug_line_str 00000095  00000000  00000000  00001313  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 14 .debug_info   00000054  00000000  00000000  000013a8  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 15 .debug_abbrev 00000038  00000000  00000000  000013fc  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 16 .debug_aranges 00000048  00000000  00000000  00001438  2**3
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 17 .debug_str    000000b1  00000000  00000000  00001480  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 18 .debug_rnglists 00000019  00000000  00000000  00001531  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+
+Disassembly of section .text:
+
+08000198 <__do_global_dtors_aux>:
+ 8000198:	b510      	push	{r4, lr}
+ 800019a:	4c05      	ldr	r4, [pc, #20]	@ (80001b0 <__do_global_dtors_aux+0x18>)
+ 800019c:	7823      	ldrb	r3, [r4, #0]
+ 800019e:	b933      	cbnz	r3, 80001ae <__do_global_dtors_aux+0x16>
+ 80001a0:	4b04      	ldr	r3, [pc, #16]	@ (80001b4 <__do_global_dtors_aux+0x1c>)
+ 80001a2:	b113      	cbz	r3, 80001aa <__do_global_dtors_aux+0x12>
+ 80001a4:	4804      	ldr	r0, [pc, #16]	@ (80001b8 <__do_global_dtors_aux+0x20>)
+ 80001a6:	f3af 8000 	nop.w
+ 80001aa:	2301      	movs	r3, #1
+ 80001ac:	7023      	strb	r3, [r4, #0]
+ 80001ae:	bd10      	pop	{r4, pc}
+ 80001b0:	20000000 	.word	0x20000000
+ 80001b4:	00000000 	.word	0x00000000
+ 80001b8:	080001f8 	.word	0x080001f8
+
+080001bc <frame_dummy>:
+ 80001bc:	b508      	push	{r3, lr}
+ 80001be:	4b03      	ldr	r3, [pc, #12]	@ (80001cc <frame_dummy+0x10>)
+ 80001c0:	b11b      	cbz	r3, 80001ca <frame_dummy+0xe>
+ 80001c2:	4903      	ldr	r1, [pc, #12]	@ (80001d0 <frame_dummy+0x14>)
+ 80001c4:	4803      	ldr	r0, [pc, #12]	@ (80001d4 <frame_dummy+0x18>)
+ 80001c6:	f3af 8000 	nop.w
+ 80001ca:	bd08      	pop	{r3, pc}
+ 80001cc:	00000000 	.word	0x00000000
+ 80001d0:	20000004 	.word	0x20000004
+ 80001d4:	080001f8 	.word	0x080001f8
+
+080001d8 <Reset_Handler>:
+			.global 	__main
+			.global		Reset_Handler
+
+
+Reset_Handler:
+			mov r1, #00
+ 80001d8:	f04f 0100 	mov.w	r1, #0
+			mov r2, #126
+ 80001dc:	f04f 027e 	mov.w	r2, #126	@ 0x7e
+
+080001e0 <__main>:
+__main:
+	        mov r5, #45
+ 80001e0:	f04f 052d 	mov.w	r5, #45	@ 0x2d
+	        mov r3, #45
+ 80001e4:	f04f 032d 	mov.w	r3, #45	@ 0x2d
+
+
+	        add sum, val1, val2
+ 80001e8:	eb01 0602 	add.w	r6, r1, r2
+
+080001ec <loop>:
+loop:
+			mov val2, #1
+ 80001ec:	f04f 0201 	mov.w	r2, #1
+			add sum, sum, val2
+ 80001f0:	4416      	add	r6, r2
+
+            b loop
+ 80001f2:	e7fb      	b.n	80001ec <loop>
+
+080001f4 <ADC_IRQHandler>:
+ * @retval : None
+*/
+  .section .text.Default_Handler,"ax",%progbits
+Default_Handler:
+Infinite_Loop:
+  b Infinite_Loop
+ 80001f4:	e7fe      	b.n	80001f4 <ADC_IRQHandler>
+	...
+
+080001f8 <_init>:
+ 80001f8:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 80001fa:	bf00      	nop
+ 80001fc:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 80001fe:	bc08      	pop	{r3}
+ 8000200:	469e      	mov	lr, r3
+ 8000202:	4770      	bx	lr
+
+08000204 <_fini>:
+ 8000204:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8000206:	bf00      	nop
+ 8000208:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 800020a:	bc08      	pop	{r3}
+ 800020c:	469e      	mov	lr, r3
+ 800020e:	4770      	bx	lr
