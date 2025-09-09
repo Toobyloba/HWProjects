@@ -33,34 +33,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := 4_AllocatingSpaceInMemory
+BUILD_ARTIFACT_NAME := 1_UsingStartUp_File
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-4_AllocatingSpaceInMemory.elf \
+1_UsingStartUp_File.elf \
 
 MAP_FILES += \
-4_AllocatingSpaceInMemory.map \
+1_UsingStartUp_File.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-4_AllocatingSpaceInMemory.list \
+1_UsingStartUp_File.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: 4_AllocatingSpaceInMemory.elf secondary-outputs
+main-build: 1_UsingStartUp_File.elf secondary-outputs
 
 # Tool invocations
-4_AllocatingSpaceInMemory.elf 4_AllocatingSpaceInMemory.map: $(OBJS) $(USER_OBJS) C:\Users\krx\HWProjects\4_AllocatingSpaceInMemory\STM32F411RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "4_AllocatingSpaceInMemory.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\krx\HWProjects\4_AllocatingSpaceInMemory\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="4_AllocatingSpaceInMemory.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+1_UsingStartUp_File.elf 1_UsingStartUp_File.map: $(OBJS) $(USER_OBJS) C:\Users\krx\HWProjects\1_UsingStartUp_File\STM32F411RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "1_UsingStartUp_File.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\krx\HWProjects\1_UsingStartUp_File\STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="1_UsingStartUp_File.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -69,14 +69,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-4_AllocatingSpaceInMemory.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "4_AllocatingSpaceInMemory.list"
+1_UsingStartUp_File.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "1_UsingStartUp_File.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) 4_AllocatingSpaceInMemory.elf 4_AllocatingSpaceInMemory.list 4_AllocatingSpaceInMemory.map default.size.stdout
+	-$(RM) 1_UsingStartUp_File.elf 1_UsingStartUp_File.list 1_UsingStartUp_File.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

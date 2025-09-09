@@ -1,30 +1,50 @@
-
-
 val1        .req r1
 val2        .req r2
 sum         .req r6
-			.syntax unified
-			.cpu cortex-m4
-			.fpu softvfp
-			.thumb
-			.section 	.text
-			.global 	__main
-			.global		Reset_Handler
 
+.syntax unified
+.cpu cortex-m4
+.fpu softvfp
+.thumb
+
+.section .text
+.global __main
+.global Reset_Handler
 
 Reset_Handler:
-			mov r1, #00
-			mov r2, #126
+    ldr r0, =0x20000000           @ Start of RAM
+    ldr r1, =0x20020000           @ End of RAM (adjust as needed)
+    ldr r2, =0xDEADBEEF           @ Fill pattern
+
+fill_ram:
+    cmp r0, r1
+    bcs fill_done
+    str r2, [r0], #4
+    b fill_ram
+
+fill_done:
+    @ Ram initialization complete
+
 __main:
-	        mov r5, #45
-	        mov r3, #45
+    ldr r0, =data_var1            @ Point r0 to data_var1
+    mov r1, #5
+    str r1, [r0]
 
+    ldr r0, =data_var2
+    mov r1, #4
+    str r1, [r0]
 
-	        add sum, val1, val2
-loop:
-			mov val2, #1
-			add sum, sum, val2
+    ldr r0, =data_var3
+    mov r1, #200
+    str r1, [r0]
 
-            b loop
-            .align
-            .end
+stop:
+    b stop
+
+.section .data
+.align 4
+data_var1:  .space 4              @ Reserve 4 bytes
+data_var2:  .space 4
+data_var3:  .space 4
+
+.end
